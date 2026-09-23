@@ -5,6 +5,7 @@ use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CheckInOutController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ClientBookingController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
@@ -26,6 +27,17 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('/availability', [AvailabilityController::class, 'index']);
+
+    // Public Client API (For React user client website)
+    Route::prefix('client')->group(function () {
+        Route::get('/rooms', [ClientBookingController::class, 'rooms']);
+        Route::get('/rooms/featured', [ClientBookingController::class, 'featuredRooms']);
+        Route::get('/rooms/{id}', [ClientBookingController::class, 'showRoom']);
+        Route::get('/services', [ClientBookingController::class, 'services']);
+        Route::post('/bookings', [ClientBookingController::class, 'storeBooking']);
+        Route::get('/bookings/{code}', [ClientBookingController::class, 'lookupBooking']);
+        Route::post('/bookings/{code}/cancel', [ClientBookingController::class, 'cancelBooking']);
+    });
 
     Route::middleware('auth:sanctum')->group(function () {
 

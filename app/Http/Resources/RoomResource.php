@@ -20,6 +20,9 @@ class RoomResource extends JsonResource
             'status' => $this->status,
             'image' => $this->image,
             'image_url' => $this->image_url,
+            'nights' => $this->whenNotNull($this->nights),
+            'total_price' => $this->whenNotNull($this->total_price),
+            'is_available' => $this->when(isset($this->is_available), $this->is_available),
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
         ];
